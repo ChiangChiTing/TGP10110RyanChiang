@@ -1,0 +1,20 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        // 36-4 加入儲存庫來源
+        maven { url "https://jitpack.io" }
+        maven { url "https://com.android.tools.build:gradle:3.1.2" }
+
+    }
+}
+rootProject.name = "TGP10110RyanChiang"
+include ':app'

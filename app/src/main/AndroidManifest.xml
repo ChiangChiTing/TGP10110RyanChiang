@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="idv.tgp10110.tgp10110ryanchiang">
+
+    <!-- 35-4 相機鏡頭設定 -->
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+    <!-- 36-4 設定使用權限: 使用全螢幕Intent的權限 Android 10(+ -->
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+    <!-- 39-2 設定使用權限: 使用網路的權限 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 39-2 設定使用權限: 檢查網路狀態的權限 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- 39-2 設定使用權限: 使用概略定位的權限 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- 39-2 設定使用權限: 使用精準定位的權限 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <!-- 42-2 設定使用權限: OpenGL ES version 2 -->
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
+
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+        </intent>
+    </queries>
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@drawable/app_icon_test"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:roundIcon="@drawable/app_icon_test"
+        android:theme="@style/Theme.TGP10110RyanChiang"
+        tools:targetApi="31">
+        <activity
+            android:name=".SecondActivity"
+
+            android:exported="false"
+            android:theme="@style/Theme.TGP10110RyanChiang.NoActionBar" />
+
+        <activity
+            android:name=".FirstActivity"
+            android:exported="true">
+            android:theme="@style/Theme.TGP10110RyanChiang.NoActionBar"
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- 36-1 註冊FileProvider -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+        <!-- 3. 註冊裁切器Activity -->
+        <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+
+        <!-- Google Cloud API_key_for_Android_APP -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDdVIR0hW5fq9nnTV4YVRp_AIZvSqXlWHQ" />
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+    </application>
+
+</manifest>

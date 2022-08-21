@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_second"
+    app:startDestination="@id/it_stamp">
+    <fragment
+        android:id="@+id/it_map"
+        android:name="idv.tgp10110.tgp10110ryanchiang.fragment_second.MapFragment"
+        android:label="fragment_map"
+        tools:layout="@layout/fragment_map" />
+    <fragment
+        android:id="@+id/it_diary"
+        android:name="idv.tgp10110.tgp10110ryanchiang.fragment_second.DiaryFragment"
+        android:label="DiaryFragment" >
+        <action
+            android:id="@+id/actionDiaryToInsert"
+            app:destination="@id/diaryInsertFragment" />
+        <action
+            android:id="@+id/actionDiaryToUpdate"
+            app:destination="@id/diaryUpdateFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/diaryInsertFragment"
+        android:name="idv.tgp10110.tgp10110ryanchiang.fragment_second.DiaryInsertFragment"
+        android:label="DiaryInsertFragment" />
+    <fragment
+        android:id="@+id/diaryUpdateFragment"
+        android:name="idv.tgp10110.tgp10110ryanchiang.fragment_second.DiaryUpdateFragment"
+        android:label="DiaryUpdateFragment" />
+    <fragment
+        android:id="@+id/it_test"
+        android:name="idv.tgp10110.tgp10110ryanchiang.fragment_second.TestFragment"
+        android:label="fragment_test"
+        tools:layout="@layout/fragment_test" />
+    <fragment
+        android:id="@+id/it_stamp"
+        android:name="idv.tgp10110.tgp10110ryanchiang.fragment_second.StampFragment"
+        android:label="fragment_stamp"
+        tools:layout="@layout/fragment_stamp" />
+    <fragment
+        android:id="@+id/it_profile"
+        android:name="idv.tgp10110.tgp10110ryanchiang.fragment_second.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/actionProfileToUpdate"
+            app:destination="@id/profileUpdateFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileUpdateFragment"
+        android:name="idv.tgp10110.tgp10110ryanchiang.fragment_second.ProfileUpdateFragment"
+        android:label="fragment_profile_update"
+        tools:layout="@layout/fragment_profile_update" />
+</navigation>

@@ -1,0 +1,91 @@
+<!--如果RecyclerView為水平捲動，而且要讓一筆資料佔一整個頁面，
+    代表一筆資料的layout檔案內的父元件（此為CardView），
+    屬性「layout_width」要設定為「match_parent」；
+    如果垂直捲動則「layout_height」要設定為「match_parent」-->
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardview"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="6dp"
+    android:foreground="?selectableItemBackground"
+    android:padding="6dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="6dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="543dp"
+        android:padding="16dp">
+
+        <ScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="372dp"
+            android:layout_height="317dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvRemark">
+
+            <LinearLayout
+                android:id="@+id/layoutTextViewList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </ScrollView>
+
+        <ImageView
+            android:id="@+id/ivDiary"
+            android:layout_width="118dp"
+            android:layout_height="126dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            android:src="@drawable/no_image"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/tvDiaryTitle"
+            android:layout_width="209dp"
+            android:layout_height="43dp"
+            android:layout_marginStart="40dp"
+            android:textColor="#000000"
+            android:textSize="30sp"
+            app:layout_constraintStart_toEndOf="@+id/ivDiary"
+            app:layout_constraintTop_toTopOf="@+id/ivDiary"
+            tools:text="XX城" />
+
+        <TextView
+            android:id="@+id/tvDiaryDate"
+            android:layout_width="199dp"
+            android:layout_height="27dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="16dp"
+            android:textColor="@color/selected"
+            android:textSize="20sp"
+            app:layout_constraintStart_toEndOf="@+id/ivDiary"
+            app:layout_constraintTop_toBottomOf="@+id/tvDiaryTitle"
+            tools:text="日期" />
+
+
+
+        <TextView
+            android:id="@+id/tvRemark"
+            android:layout_width="204dp"
+            android:layout_height="38dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="12dp"
+            android:textColor="#f28500"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@+id/ivDiary"
+            app:layout_constraintTop_toBottomOf="@+id/tvDiaryDate"
+            tools:text="備註" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

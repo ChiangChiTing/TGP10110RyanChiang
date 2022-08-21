@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">TGP10110RyanChiang</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="textDiaryName">Diary name</string>
+
+</resources>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/profile_bg"
+    tools:context=".fragment_first.ResultFragment">
+
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:src="@drawable/sign_up_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/etSignUpEmail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="212dp"
+        android:layout_marginEnd="24dp"
+        android:hint="請設定帳號(E-mail)"
+        android:inputType="textEmailAddress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/etSignUpPassword"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:ems="10"
+        android:hint="請設定密碼(至少6個字元)"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="@+id/etSignUpEmail"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/etSignUpEmail"
+        app:layout_constraintTop_toBottomOf="@+id/etSignUpEmail" />
+
+    <EditText
+        android:id="@+id/etPasswordConfirm"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="120dp"
+        android:ems="10"
+        android:hint="請再次輸入設定之密碼"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="@+id/etSignUpEmail"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/etSignUpEmail"
+        app:layout_constraintTop_toBottomOf="@+id/etSignUpEmail" />
+
+    <EditText
+        android:id="@+id/etSignUpNickname"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="224dp"
+        android:hint="請輸入暱稱"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="@+id/etSignUpEmail"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/etSignUpEmail"
+        app:layout_constraintTop_toBottomOf="@+id/etSignUpEmail" />
+
+    <Button
+        android:id="@+id/btSignUp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="成為攻城師"
+        app:layout_constraintEnd_toEndOf="@+id/etSignUpPassword"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/etSignUpPassword"
+        app:layout_constraintTop_toBottomOf="@+id/etSignUpNickname" />
+
+    <TextView
+        android:id="@+id/tvHintPassword"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:text="攻城師密碼"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/etSignUpPassword"
+        app:layout_constraintStart_toStartOf="@+id/etSignUpEmail" />
+
+    <TextView
+        android:id="@+id/tvHintAccount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:text="攻城師帳號"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/etSignUpEmail"
+        app:layout_constraintStart_toStartOf="@+id/etSignUpEmail" />
+
+    <TextView
+        android:id="@+id/tvHintNickname"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="攻城師暱稱"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/etSignUpNickname"
+        app:layout_constraintStart_toStartOf="@+id/etSignUpEmail" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

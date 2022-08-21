@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/profile_bg"
+    tools:context=".fragment_second.ProfileUpdateFragment">
+
+    <TextView
+        android:id="@+id/tvUserUpdateTitle"
+        android:layout_width="354dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="64dp"
+        android:text="編輯攻城師檔案"
+        android:textSize="34sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvNicknameHint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="暱稱："
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/etNicknameUp"
+        app:layout_constraintEnd_toStartOf="@+id/etNicknameUp"
+        app:layout_constraintTop_toTopOf="@+id/etNicknameUp" />
+
+    <EditText
+        android:id="@+id/etNicknameUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="24dp"
+        android:ems="10"
+        android:hint="請填入您的暱稱"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvUserUpdateTitle" />
+
+    <TextView
+        android:id="@+id/tvPasswordHint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="密碼："
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/etPasswordUp"
+        app:layout_constraintEnd_toStartOf="@+id/etPasswordUp"
+        app:layout_constraintTop_toTopOf="@+id/etPasswordUp"
+        app:layout_constraintVertical_bias="0.722" />
+
+    <EditText
+        android:id="@+id/etPasswordUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="50dp"
+        android:ems="10"
+        android:hint="請輸入至少6個字元"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="@+id/etNicknameUp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/etNicknameUp"
+        app:layout_constraintTop_toBottomOf="@+id/etNicknameUp" />
+
+    <TextView
+        android:id="@+id/tvPasswordConfirmHint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="密碼確認："
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/etPasswordConfirmUp"
+        app:layout_constraintEnd_toStartOf="@+id/etPasswordConfirmUp"
+        app:layout_constraintTop_toTopOf="@+id/etPasswordConfirmUp" />
+
+    <EditText
+        android:id="@+id/etPasswordConfirmUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="50dp"
+        android:ems="10"
+        android:hint="請再輸入一次密碼"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="@+id/etPasswordUp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/etPasswordUp"
+        app:layout_constraintTop_toBottomOf="@+id/etPasswordUp" />
+
+    <Button
+        android:id="@+id/btSignOut"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginBottom="68dp"
+        android:text="更新"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btUpdateProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="100dp"
+        android:text="返回"
+        app:layout_constraintBottom_toBottomOf="@+id/btSignOut"
+        app:layout_constraintEnd_toEndOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
