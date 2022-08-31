@@ -11,7 +11,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.view.menu.MenuView;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
@@ -19,9 +18,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -31,9 +28,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import idv.tgp10110.tgp10110ryanchiang.R;
 import idv.tgp10110.tgp10110ryanchiang.SecondActivity;
@@ -48,7 +42,7 @@ public class ResultFragment extends Fragment {
     private FirebaseAuth auth;
     private FirebaseFirestore db;
     private FirebaseStorage storage;
-    private ImageView ivToSecond, ivSignOutIcon;
+    private ImageView ivToSecond, ivSignOutIconLeft, ivSignOutIconRight;
 
     // 初始化與畫面無直接關係之資料
     @Override
@@ -78,12 +72,13 @@ public class ResultFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         findViews(view);
         handleIvButton();
-//        addOrReplace();
+//        handleSavePreferences();
     }
 
     private void findViews(View view) {
         ivToSecond = view.findViewById(R.id.ivToSecond);
-        ivSignOutIcon = view.findViewById(R.id.ivSignOutIcon);
+        ivSignOutIconLeft = view.findViewById(R.id.ivSignOutIconLeft);
+        ivSignOutIconRight = view.findViewById(R.id.ivSignOutIconRight);
 
     }
 
@@ -97,7 +92,23 @@ public class ResultFragment extends Fragment {
 //            NavController navController = Navigation.findNavController(view);
 //            navController.navigate(R.id.action_result_to_takePicture,bundle);
         });
-        ivSignOutIcon.setOnClickListener(view ->
+        ivSignOutIconLeft.setScaleX(-1);
+        ivSignOutIconLeft.setScaleY(1);
+        ivSignOutIconLeft.setOnClickListener(view ->
+                new AlertDialog.Builder(activity)
+                        // 設定標題
+                        .setTitle("登出")
+                        // 設定圖示
+                        .setIcon(R.drawable.ic_waring)
+                        // 設定訊息文字
+                        .setMessage("您確定要登出嗎?")
+                        // 設定positive與negative按鈕上面的文字與點擊事件監聽器
+                        .setPositiveButton("登出", (dialog, which) -> signOut()) // 登出
+                        .setNegativeButton("取消", (dialog, which) -> dialog.cancel()) // 取消並關閉對話視窗
+                        .setCancelable(false) // false代表要點擊按鈕方能關閉，預設為true
+                        .show());
+
+        ivSignOutIconRight.setOnClickListener(view ->
                 new AlertDialog.Builder(activity)
                         // 設定標題
                         .setTitle("登出")
@@ -146,7 +157,7 @@ public class ResultFragment extends Fragment {
 //        Log.d(TAG, "Signed out");
 //    }
 
-    private void addOrReplace() {
+    private void handleSavePreferences() {
         FirebaseUser user_1 = auth.getCurrentUser();
         String user_UID = user_1.getUid();
         db.collection("castleUsers").document(user_UID).get()

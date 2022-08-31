@@ -3,7 +3,9 @@ package idv.tgp10110.tgp10110ryanchiang.fragment_second;
 import static android.app.Activity.RESULT_OK;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -15,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -35,12 +38,14 @@ import com.yalantis.ucrop.UCrop;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Calendar;
 
 import idv.tgp10110.tgp10110ryanchiang.R;
 import idv.tgp10110.tgp10110ryanchiang.bean.Diary;
 
 
-public class DiaryUpdateFragment extends Fragment {
+public class DiaryUpdateFragment extends Fragment implements DialogInterface.OnClickListener,
+        DatePickerDialog.OnDateSetListener {
     private static final String TAG = "TAG_DiaryUpdateFragment";
     private FirebaseFirestore db; // 雲端資料庫(NoSQL)
     private FirebaseStorage storage; // 存圖檔
@@ -195,6 +200,33 @@ public class DiaryUpdateFragment extends Fragment {
             pickPictureLauncher.launch(intent); // 開啟裁切啟動器
         });
 
+        etDate.setOnClickListener(View -> {
+            // 1. 取得Calendar物件
+            Calendar calendar = Calendar.getInstance();
+
+            // 2. 實例化DatePickerDialog物件
+            DatePickerDialog datePickerDialog = new DatePickerDialog(
+                    activity,
+                    (DatePickerDialog.OnDateSetListener) this,
+                    calendar.get(Calendar.YEAR),
+                    calendar.get(Calendar.MONTH),
+                    calendar.get(Calendar.DAY_OF_MONTH)
+            );
+
+            // 3. 設定可選取日期區間
+            // 3.1 取得DatePicker物件
+            DatePicker datePicker = datePickerDialog.getDatePicker();
+            // 3.2 設定可選取的最小日期
+            calendar.add(Calendar.YEAR, -16);
+            datePicker.setMinDate(calendar.getTimeInMillis());
+            // 3.3 設定可選取的最大日期
+//            calendar.add(Calendar.MONTH, 2);
+//            datePicker.setMaxDate(calendar.getTimeInMillis());
+
+            // 4. 顯示對話框
+            datePickerDialog.show();
+        });
+
         // 提交按鈕監聽器
         view.findViewById(R.id.btFinishUpdate).setOnClickListener(v -> {
             // 取得使用者輸入之日記名稱/日期/內容/附註(皆String)
@@ -249,15 +281,14 @@ public class DiaryUpdateFragment extends Fragment {
         db.collection("diaries").document(diary.getDiaryId()).set(diary)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        String message = "textInserted"
-                                + " with ID: " + diary.getDiaryId();
+                        String message = "日記修改成功";
                         Log.d(TAG, message);
                         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
                         // 修改完畢回上頁
                         Navigation.findNavController(ivDiary).popBackStack();
                     } else {
                         String message = task.getException() == null ?
-                                "textInsertFail" :
+                                "日記修改失敗" :
                                 task.getException().getMessage();
                         Log.e(TAG, "message: " + message);
                         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
@@ -283,5 +314,42 @@ public class DiaryUpdateFragment extends Fragment {
                         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    /**
+     * DatePickerDialog的監聽器
+     * 當日期被選取時，自動被呼叫
+     *
+     * @param view       DatePicker物件
+     * @param year       選取的年
+     * @param month      選取的月
+     * @param dayOfMonth 選取的日
+     */
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        final String text = "" + year + "/" + (month + 1) + "/" + dayOfMonth;
+        etDate.setText(text);
+    }
+
+    /**
+     * AlertDialog的Button點擊監聽器
+     * 當按鈕(確定、否定、不決定)被點擊時，自動被呼叫
+     *
+     * @param dialog AlertDialog物件
+     * @param which  對話框按鈕編號
+     */
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+        switch (which) {
+            // 確定按鈕
+            case DialogInterface.BUTTON_POSITIVE:
+                Toast.makeText(requireContext(), "Submit successfully！", Toast.LENGTH_SHORT).show();
+                break;
+            // 否定/不決定 按鈕
+            case DialogInterface.BUTTON_NEGATIVE:
+            case DialogInterface.BUTTON_NEUTRAL:
+                dialog.cancel();
+                break;
+        }
     }
 }

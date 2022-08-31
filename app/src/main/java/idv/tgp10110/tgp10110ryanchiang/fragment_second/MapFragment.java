@@ -389,7 +389,7 @@ public class MapFragment extends Fragment {
         @Nullable
         @Override
         public View getInfoWindow(@NonNull Marker marker) {
-            final View view = View.inflate(activity, R.layout.infowindow_test, null);
+            final View view = View.inflate(activity, R.layout.infowindow_castle_map, null);
             final String title = marker.getTitle();
             final String snippet = marker.getSnippet();
             TextView tvTitle = view.findViewById(R.id.tvTitle);

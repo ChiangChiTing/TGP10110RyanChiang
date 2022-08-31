@@ -6,7 +6,7 @@ import java.util.List;
 public class Diary implements Serializable {
     private String diaryId; // Firebase的UID
     private String diaryName; // 日記名稱
-    private String diaryDate; // 待調整
+    private String diaryDate; // 日記日期字串顯示
     private String diaryDetail; // 日記內容
     private String diaryRemark; // 附註
     private String diaryImagePath; //日記圖片路徑

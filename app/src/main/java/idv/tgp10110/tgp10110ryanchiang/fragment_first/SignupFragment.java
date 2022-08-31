@@ -118,7 +118,7 @@ public class SignupFragment extends Fragment {
         user.setUserRank("新手攻城師");
 
         // 目前集章數量
-        user.setStampCount(3);
+        user.setStampCount(0);
 
         signUp(user);
     }

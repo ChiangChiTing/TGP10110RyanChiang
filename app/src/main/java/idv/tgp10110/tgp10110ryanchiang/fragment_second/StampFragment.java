@@ -2,10 +2,13 @@ package idv.tgp10110.tgp10110ryanchiang.fragment_second;
 
 import static android.app.Activity.RESULT_OK;
 
+import static idv.tgp10110.tgp10110ryanchiang.util.Constants.PREFERENCES_FILE;
+
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.ImageDecoder;
@@ -33,6 +36,8 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -51,6 +56,7 @@ import java.util.TimeZone;
 
 import idv.tgp10110.tgp10110ryanchiang.R;
 import idv.tgp10110.tgp10110ryanchiang.bean.Castle;
+import idv.tgp10110.tgp10110ryanchiang.bean.User;
 
 
 public class StampFragment extends Fragment {
@@ -63,10 +69,16 @@ public class StampFragment extends Fragment {
     private Uri cropImageUri; // 裁切用Uri
     private FirebaseFirestore db; // 雲端資料庫(NoSQL)
     private FirebaseStorage storage; // 存圖檔
+    private FirebaseAuth auth;
+    private SharedPreferences sharedPreferences;
     private ListenerRegistration registration;
     private Bitmap bitmap;
     private ImageView curImageView;
     private Castle curCastle;
+    private User user;
+    private int tempCount;
+    private int tempCountLove;
+
 
     // 拍照啟動器
     ActivityResultLauncher<Intent> takePictureLauncher = registerForActivityResult(
@@ -83,6 +95,7 @@ public class StampFragment extends Fragment {
         super.onCreate(savedInstanceState);
         db = FirebaseFirestore.getInstance(); // 取得Firebase資料庫物件(存castle)
         storage = FirebaseStorage.getInstance(); // 取得FirebaseStorage物件(存圖片用)
+        auth = FirebaseAuth.getInstance();
     }
 
     // 載入並建立Layout
@@ -106,7 +119,7 @@ public class StampFragment extends Fragment {
     public void onStart() {
         super.onStart();
 //        handleSearchView();
-
+        sharedPreferences = activity.getSharedPreferences(PREFERENCES_FILE, Context.MODE_PRIVATE);
         handleRecyclerView();
     }
 
@@ -415,15 +428,21 @@ public class StampFragment extends Fragment {
                     if (castle.isFavorite()) {
                         viewHolder.ivFavorite.setImageResource(R.drawable.ic_heart_plus_48);
                         castle.setFavorite(false);
+                        tempCountLove--;
+                        savePreferences("最愛", String.valueOf(tempCountLove));
                         Toast.makeText(requireContext(), "已將此城移除我的最愛", Toast.LENGTH_SHORT).show();
                     } else {
                         viewHolder.ivFavorite.setImageResource(R.drawable.ic_heart_48);
                         castle.setFavorite(true);
+                        tempCountLove++;
+                        savePreferences("最愛", String.valueOf(tempCountLove));
                         Toast.makeText(requireContext(), "已將此城加入我的最愛", Toast.LENGTH_SHORT).show();
 
                     }
 
                     addOrReplace(castle);
+
+
                 } else {
                     Toast.makeText(requireContext(), "必須攻略完成才能加入我的最愛", Toast.LENGTH_SHORT).show();
                 }
@@ -484,6 +503,32 @@ public class StampFragment extends Fragment {
                 castle.setStampedDate(stampedDate);
 //                castle.setImagePath(uploadImage(cropImageUri));
                 viewHolder.tvDate.setText(castle.getStrStampedDate() + "攻略");
+                FirebaseUser firebaseUser = auth.getCurrentUser();
+                String userUID = firebaseUser.getUid();
+                Log.d(TAG, "UIDDD : " + userUID);
+                db.collection("castleUsers").document(userUID).get()
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful() && task.getResult() != null) {
+                                user = task.getResult().toObject(User.class);
+                                Log.d(TAG, "UserName : " + user.getUserName());
+
+                                if (user != null) {
+                                    int count = user.getStampCount();
+                                    user.setStampCount(count + 1);
+                                    Log.d(TAG, "count" + user.getStampCount());
+//                                    savePreferences("城章數", user.getStampCount().toString());
+                                }
+                            } else {
+                                String message = task.getException() == null ?
+                                        "XXX" :
+                                        task.getException().getMessage();
+                                Log.e(TAG, "exception message: " + message);
+                                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                tempCount++;
+                savePreferences("城章", String.valueOf(tempCount));
+
             });
         }
     }
@@ -511,8 +556,16 @@ public class StampFragment extends Fragment {
                 });
     }
 
+    private void savePreferences(String key, String value) {
+        sharedPreferences
+                // 開始編輯
+                .edit()
+                // 寫出資料
+                .putString(key, value)
+                // 存檔
+                .apply();
 
-
+    }
 
 
     private List<Castle> getCastleList() {

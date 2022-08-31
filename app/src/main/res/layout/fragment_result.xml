@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/ivSignOutIcon"
+        android:id="@+id/ivSignOutIconRight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="36dp"
@@ -25,6 +25,16 @@
         android:src="@drawable/kinshachi"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/ivSignOutIconLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:layout_marginBottom="50dp"
+        android:src="@drawable/kinshachi"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/tvClickNotice"
@@ -54,10 +64,10 @@
         android:id="@+id/tvSignOutNotice"
         android:layout_width="154dp"
         android:layout_height="35dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginEnd="10dp"
         android:layout_marginBottom="60dp"
         android:text="點擊金鯱登出"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/ivSignOutIcon" />
+        app:layout_constraintEnd_toStartOf="@+id/ivSignOutIconRight" />
 </androidx.constraintlayout.widget.ConstraintLayout>

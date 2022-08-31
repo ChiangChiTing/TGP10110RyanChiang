@@ -1,6 +1,9 @@
 package idv.tgp10110.tgp10110ryanchiang.fragment_second;
 
+import static idv.tgp10110.tgp10110ryanchiang.util.Constants.PREFERENCES_FILE;
+
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -41,12 +44,14 @@ public class ProfileFragment extends Fragment {
     private SharedPreferences sharedPreferences;
     private Activity activity;
     private Button btSignOut, btUpdateProfile;
-    private TextView tvProfileID, tvProfileAccount, tvProfileName, tvProfileCount, tvProfileLevel, tvProfileLogInType;
+    private TextView tvProfileID, tvProfileAccount, tvProfileName, tvProfileCount, tvProfileLevel, tvProfileFavorite;
     private Bundle bundle;
     private FirebaseAuth auth;
     private FirebaseFirestore db;
     private FirebaseStorage storage;
     private User user;
+    private final static String DEFAULT_COUNT = "尚未開始攻城";
+    private final static String DEFAULT_FAVORITE = "尚未有城郭加入我的最愛";
 
 
     // 初始化與畫面無直接關係之資料
@@ -58,7 +63,7 @@ public class ProfileFragment extends Fragment {
         db = FirebaseFirestore.getInstance(); // 取得Firebase資料庫物件
         storage = FirebaseStorage.getInstance(); // 取得FirebaseStorage物件(存圖片用)
         bundle = getArguments();
-        user = new User();
+//        user = new User();
 
 
     }
@@ -81,12 +86,20 @@ public class ProfileFragment extends Fragment {
         showProfile();
     }
 
+    // 畫面即將顯示前
+    @Override
+    public void onStart() {
+        super.onStart();
+        sharedPreferences = activity.getSharedPreferences(PREFERENCES_FILE, Context.MODE_PRIVATE);
+    }
+
 
     private void findViews(View view) {
         tvProfileID = view.findViewById(R.id.tvProfileID);
         tvProfileAccount = view.findViewById(R.id.tvProfileAccount);
         tvProfileName = view.findViewById(R.id.tvProfileName);
         tvProfileCount = view.findViewById(R.id.tvProfileCount);
+        tvProfileFavorite = view.findViewById(R.id.tvProfileFavorite);
         tvProfileLevel = view.findViewById(R.id.tvProfileLevel);
 //        tvProfileLogInType = view.findViewById(R.id.tvProfileLogInType);
         btSignOut = view.findViewById(R.id.btSignOut);
@@ -105,9 +118,9 @@ public class ProfileFragment extends Fragment {
     }
 
     private void showProfile() {
-        FirebaseUser user_1 = auth.getCurrentUser();
-        String user_UID = user_1.getUid();
-        db.collection("castleUsers").document(user_UID).get()
+        FirebaseUser firebaseUser = auth.getCurrentUser();
+        String userUID = firebaseUser.getUid();
+        db.collection("castleUsers").document(userUID).get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && task.getResult() != null) {
                         user = task.getResult().toObject(User.class);
@@ -115,7 +128,10 @@ public class ProfileFragment extends Fragment {
                             tvProfileID.setText(user.getUserId());
                             tvProfileAccount.setText(user.getUserAccount());
                             tvProfileName.setText(user.getUserName());
-//                            tvProfileCount.setText(user.getStampCount());
+//                            tvProfileCount.setText(user.getStampCount().toString());
+//                            tvProfileCount.setText(sharedPreferences.getString("城章數", DEFAULT_COUNT));
+                            tvProfileCount.setText(sharedPreferences.getString("城章", DEFAULT_COUNT));
+                            tvProfileFavorite.setText(sharedPreferences.getString("最愛", DEFAULT_FAVORITE));
                             tvProfileLevel.setText(user.getUserRank());
 //                            tvProfileLogInType.setText(user.getSignInType());
                         }
@@ -128,14 +144,17 @@ public class ProfileFragment extends Fragment {
                     }
                 });
 
-//            if (user != null) {
-//                tvProfileID.setText(user.getUserId());
-//                tvProfileAccount.setText(user.getUserAccount());
-//                tvProfileName.setText(user.getUserName());
-//                tvProfileCount.setText(user.getStampCount());
-//                tvProfileLevel.setText(user.getUserRank());
-//                tvProfileLogInType.setText(user.getSignInType());
-//            }
+
+//        if (user != null) {
+//
+//
+//            tvProfileID.setText(user.getUserId());
+//            tvProfileAccount.setText(user.getUserAccount());
+//            tvProfileName.setText(user.getUserName());
+//            tvProfileCount.setText(user.getStampCount());
+//            tvProfileLevel.setText(user.getUserRank());
+//            tvProfileLogInType.setText(user.getSignInType());
+//        }
     }
 
 

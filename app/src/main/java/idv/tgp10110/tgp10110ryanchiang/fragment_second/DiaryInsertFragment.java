@@ -5,6 +5,7 @@ import static android.app.Activity.RESULT_OK;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -42,7 +43,8 @@ import idv.tgp10110.tgp10110ryanchiang.R;
 import idv.tgp10110.tgp10110ryanchiang.bean.Diary;
 
 
-public class DiaryInsertFragment extends Fragment {
+public class DiaryInsertFragment extends Fragment implements DialogInterface.OnClickListener,
+        DatePickerDialog.OnDateSetListener{
     private static final String TAG = "TAG_DiaryInsertFragment";
     private FirebaseFirestore db; // 雲端資料庫(NoSQL)
     private FirebaseStorage storage; // 存圖檔
@@ -182,32 +184,32 @@ public class DiaryInsertFragment extends Fragment {
             pickPictureLauncher.launch(intent); // 開啟裁切啟動器
         });
 
-//        etDate.setOnClickListener(View ->{
-//            // 1. 取得Calendar物件
-//            Calendar calendar = Calendar.getInstance();
-//
-//            // 2. 實例化DatePickerDialog物件
-//            DatePickerDialog datePickerDialog = new DatePickerDialog(
-//                    activity,
-//                    (DatePickerDialog.OnDateSetListener) this,
-//                    calendar.get(Calendar.YEAR),
-//                    calendar.get(Calendar.MONTH),
-//                    calendar.get(Calendar.DAY_OF_MONTH)
-//            );
-//
-//            // 3. 設定可選取日期區間
-//            // 3.1 取得DatePicker物件
-//            DatePicker datePicker = datePickerDialog.getDatePicker();
-//            // 3.2 設定可選取的最小日期
-//            calendar.add(Calendar.YEAR, 2);
-//            datePicker.setMinDate(calendar.getTimeInMillis());
-//            // 3.3 設定可選取的最大日期
-////            calendar.add(Calendar.MONTH, 2);
-////            datePicker.setMaxDate(calendar.getTimeInMillis());
-//
-//            // 4. 顯示對話框
-//            datePickerDialog.show();
-//        });
+        etDate.setOnClickListener(View ->{
+            // 1. 取得Calendar物件
+            Calendar calendar = Calendar.getInstance();
+
+            // 2. 實例化DatePickerDialog物件
+            DatePickerDialog datePickerDialog = new DatePickerDialog(
+                    activity,
+                    (DatePickerDialog.OnDateSetListener) this,
+                    calendar.get(Calendar.YEAR),
+                    calendar.get(Calendar.MONTH),
+                    calendar.get(Calendar.DAY_OF_MONTH)
+            );
+
+            // 3. 設定可選取日期區間
+            // 3.1 取得DatePicker物件
+            DatePicker datePicker = datePickerDialog.getDatePicker();
+            // 3.2 設定可選取的最小日期
+            calendar.add(Calendar.YEAR, -16);
+            datePicker.setMinDate(calendar.getTimeInMillis());
+            // 3.3 設定可選取的最大日期
+//            calendar.add(Calendar.MONTH, 2);
+//            datePicker.setMaxDate(calendar.getTimeInMillis());
+
+            // 4. 顯示對話框
+            datePickerDialog.show();
+        });
 
 
 
@@ -287,5 +289,42 @@ public class DiaryInsertFragment extends Fragment {
                         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    /**
+     * DatePickerDialog的監聽器
+     * 當日期被選取時，自動被呼叫
+     *
+     * @param view       DatePicker物件
+     * @param year       選取的年
+     * @param month      選取的月
+     * @param dayOfMonth 選取的日
+     */
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        final String text = "" + year + "/" + (month + 1) + "/" + dayOfMonth;
+        etDate.setText(text);
+    }
+
+    /**
+     * AlertDialog的Button點擊監聽器
+     * 當按鈕(確定、否定、不決定)被點擊時，自動被呼叫
+     *
+     * @param dialog AlertDialog物件
+     * @param which  對話框按鈕編號
+     */
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+        switch (which) {
+            // 確定按鈕
+            case DialogInterface.BUTTON_POSITIVE:
+                Toast.makeText(requireContext(), "Submit successfully！", Toast.LENGTH_SHORT).show();
+                break;
+            // 否定/不決定 按鈕
+            case DialogInterface.BUTTON_NEGATIVE:
+            case DialogInterface.BUTTON_NEUTRAL:
+                dialog.cancel();
+                break;
+        }
     }
 }
